@@ -251,3 +251,39 @@ linear_extrude(height=5) {  // Giving the 2D shape a height of 5 in the z-axis
     }
 }
 ```"
+8,didn't try,"include <BOSL2/std.scad>
+include <BOSL2/screws.scad>
+
+screw(""#8-32"", head=""button"", drive=""torx"", length=12);",Could you convert this #8-32 button screw to use ISO (metric) standards and make it a tad oversize for a tighter fit?,"Here, “convert to ISO” is interpreted as replacing the imperial #8-32 with an equivalent metric screw, for example an M4 screw. Since undersizing the screw in BOSL2 actually creates a looser fit (by reducing the major diameter further), a tighter fit is achieved by making the screw slightly oversize. This is done by using a negative undersize value (if supported) to increase the screw’s effective diameter.
+
+```
+include <BOSL2/std.scad>
+include <BOSL2/screws.scad>
+
+screw(""M4"", head=""button"", drive=""torx"", length=12, undersize=-0.05);
+```"
+9,didn't try,"include <BOSL2/std.scad>
+include <BOSL2/screws.scad>
+
+screw(""M6x1"", length=20);",I want to extend the threaded portion of my screw for better engagement.,"Assuming the goal is to have a longer threaded engagement and given that the default normal screw is fully threaded, the solution is to increase the overall screw length. The final code increases the screw's total length to provide a longer thread.
+```
+include <BOSL2/std.scad>
+include <BOSL2/screws.scad>
+
+screw(""M6x1"", length=25);
+```"
+10,didn't try,,Can you add a nut that fits well with an M8 screw and position it just below a circular plate? I want to make sure it's aligned properly.  ,"Assuming the plate is positioned at Z=0, placing the nut ""just below"" means translating it downward along the Z-axis by its thickness plus a small clearance. The `struct_val()` function is used to extract the nut thickness from `nut_info(""M8"")`, ensuring accurate placement.  
+```
+include <BOSL2/std.scad>
+include <BOSL2/screws.scad>;
+
+plate_thickness = 2;
+plate_diameter = 40;
+
+// Create the circular plate at Z=0
+cylinder(h=plate_thickness, d=plate_diameter);
+
+// Position the nut just below the plate
+translate([0, 0, -struct_val(nut_info(""M8""), ""thickness"") - 0.5])
+    nut(""M8"", shape=""hex"");
+```"

@@ -47,5 +47,26 @@
         "Initial OpenSCAD": "",
         "Prompt": "In openscad, make me a bottom semicircle (with the bottom half only)",
         "Final OpenSCAD with COT": "The request is to create a bottom semicircle in OpenSCAD.\n\n**Assumptions Being Made:**  \n1. The prompt does not specify the size of the semicircle, so a reasonable default (radius 50) is used.  \n2. The semicircle must be created from a full circle by keeping the bottom half and removing the top half.  \n3. The semicircle's orientation is not explicitly defined, so it is assumed to be aligned with the Cartesian coordinate system.  \n4. The method used involves intersecting a full circle with a rectangular region covering the bottom half, ensuring that only the overlapping portion remains.  \n\n**Position, Size, and Orientation Considerations:**  \n1. A full circle with a radius of 50 is generated, giving it a total width (diameter) of 100.  \n2. A rectangle (square function) of size [50, 100] is used to cover the bottom half of the circle.  \n3. The rectangle is positioned at [0, -50], ensuring that it fully covers the bottom side of the circle.  \n\n**New Size and Orientation of the Object:**  \n1. The semicircle retains a radius of 50, spanning from (-50,0) to (50,0) on the x-axis and from (0,-50) to (0,0) on the y-axis.  \n2. The object is then extruded in the z-direction, giving it a height of 5 and turning it into a semicylindrical 3D shape.  \n\n**Final Placement Considerations:**  \n1. The semicircle is created by intersecting the full circle with a rectangular region covering the bottom half.  \n2. Since only the intersecting portion remains, the bottom semicircle is the final output.  \n\n**Final Code with Chain of Thought Justification:**  \n```openscad\nlinear_extrude(height=5) {  // Giving the 2D shape a height of 5 in the z-axis\n    intersection() {  // Creating a semicircle by intersecting a full circle with a rectangle\n        circle(50);  // Full circle with radius 50\n        translate([0, -50, 0]) square([50, 100], center=false);  // Covering the bottom half so that only the bottom semicircle remains\n    }\n}\n```"
+    },
+    {
+        "id": 8,
+        "Did GPT-4o succeed at this?": "didn't try",
+        "Initial OpenSCAD": "include <BOSL2/std.scad>\ninclude <BOSL2/screws.scad>\n\nscrew(\"#8-32\", head=\"button\", drive=\"torx\", length=12);",
+        "Prompt": "Could you convert this #8-32 button screw to use ISO (metric) standards and make it a tad oversize for a tighter fit?",
+        "Final OpenSCAD with COT": "Here, \u201cconvert to ISO\u201d is interpreted as replacing the imperial #8-32 with an equivalent metric screw, for example an M4 screw. Since undersizing the screw in BOSL2 actually creates a looser fit (by reducing the major diameter further), a tighter fit is achieved by making the screw slightly oversize. This is done by using a negative undersize value (if supported) to increase the screw\u2019s effective diameter.\n\n```\ninclude <BOSL2/std.scad>\ninclude <BOSL2/screws.scad>\n\nscrew(\"M4\", head=\"button\", drive=\"torx\", length=12, undersize=-0.05);\n```"
+    },
+    {
+        "id": 9,
+        "Did GPT-4o succeed at this?": "didn't try",
+        "Initial OpenSCAD": "include <BOSL2/std.scad>\ninclude <BOSL2/screws.scad>\n\nscrew(\"M6x1\", length=20);",
+        "Prompt": "I want to extend the threaded portion of my screw for better engagement.",
+        "Final OpenSCAD with COT": "Assuming the goal is to have a longer threaded engagement and given that the default normal screw is fully threaded, the solution is to increase the overall screw length. The final code increases the screw's total length to provide a longer thread.\n```\ninclude <BOSL2/std.scad>\ninclude <BOSL2/screws.scad>\n\nscrew(\"M6x1\", length=25);\n```"
+    },
+    {
+        "id": 10,
+        "Did GPT-4o succeed at this?": "didn't try",
+        "Initial OpenSCAD": "",
+        "Prompt": "Can you add a nut that fits well with an M8 screw and position it just below a circular plate? I want to make sure it's aligned properly.  ",
+        "Final OpenSCAD with COT": "Assuming the plate is positioned at Z=0, placing the nut \"just below\" means translating it downward along the Z-axis by its thickness plus a small clearance. The `struct_val()` function is used to extract the nut thickness from `nut_info(\"M8\")`, ensuring accurate placement.  \n```\ninclude <BOSL2/std.scad>\ninclude <BOSL2/screws.scad>;\n\nplate_thickness = 2;\nplate_diameter = 40;\n\n// Create the circular plate at Z=0\ncylinder(h=plate_thickness, d=plate_diameter);\n\n// Position the nut just below the plate\ntranslate([0, 0, -struct_val(nut_info(\"M8\"), \"thickness\") - 0.5])\n    nut(\"M8\", shape=\"hex\");\n```"
     }
 ]
