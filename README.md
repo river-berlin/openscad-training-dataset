@@ -7,3 +7,4 @@ A refined training dataset for openscad projects - with a focus on BOSL2
 1. [] - Manual labelling, and creating the dataset (in progress)
 2. [] - Fine tuning a model on (1) as I am working on it, so that my future progress becomes faster
 3. [] - Expanding orientations and using a large language model to create combinations of how to do things on the existing dataset
+4. [] - Filtering out BOSL2 from existing datasets on huggingface and using those datasets perhaps?
